@@ -1,0 +1,6 @@
+           V1       V2
+1        Port Infantry
+2 Porto Bello      700
+3   Cartagena      500
+4 Panama City     1500
+5      Havana     2000

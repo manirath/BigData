@@ -124,4 +124,35 @@ revsort.result <- sort(v, decreasing = TRUE)
 print(revsort.result)
 ```
 
+```{r}
+data <- c(10, 7, 4, 13)
+barplot(data)
+data <- c(10, 7, 4, 13)
+names(data) <- c("First", "Two", "Three", "Four")
+barplot(data)
+```
+
+#การเพิ่มค่าให้กับ vector จะเพิ่มค่าให้ทุกตัวใน vector ด้วย เช่น
+
+```{r}
+a <- c(1, 2, 3)
+a + 1
+```
+
+```{r}
+a <- c(1, 2, 3)
+b <- c(5, 6, 7)
+print(a + b)
+```
+#ในกรณีที่ จำนวนค่าใน vector ไม่เท่ากัน ลองทดสอบดูจาก r-fiddle มันจะก็อปค่า vector ที่สั้นกว่า ให้ยาวเท่ากับ vector อันยาว แล้วถึงทำ operator เช่น
+
+```{r}
+a <- c(1, 2, 3)
+b <- c(2, 5, 3, 1, 2, 6, 7)
+print(a+b)
+
+```
+
+
+
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

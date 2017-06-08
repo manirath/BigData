@@ -137,5 +137,32 @@ v <- gl(3, 4, labels = c("Tampa", "Seattle","Boston"))
 print(v)
 ```
 
+```{r}
+chests <- c('gold', 'silver', 'gems', 'gold', 'gems')
+types <- factor(chests)
+
+print(chests)
+print(types)
+
+```
+```{r}
+weights <- c(300, 200, 100, 250, 150)
+prices <- c(9000, 5000, 12000, 7500, 18000)
+plot(weights, prices)
+
+```
+```{r}
+chests <- c('gold', 'silver', 'gems', 'gold', 'gems')
+types <- factor(chests)
+
+weights <- c(300, 200, 100, 250, 150)
+prices <- c(9000, 5000, 12000, 7500, 18000)
+plot(weights, prices, pch=as.integer(types))
+
+legend("topright", levels(types), pch=1:length(levels(types)))
+
+
+```
+
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -1,0 +1,72 @@
+---
+title: "Workshop10_gplots"
+author: "manirath"
+date: "June 8, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+#### Plotting the Cars93 data
+
+This problem uses the Cars93 dataset from the MASS package.
+
+**(a)** Use `qplot` to create a scatterplot with Price on the y-axis and EngineSize on the `x-axis`.  
+
+```{r, fig.align='center', fig.height=4, fig.width=5}
+qplot(x = EngineSize, y = Price, data = Cars93)
+```
+
+**(b)** Repeat part (a) using the `ggplot` function and `geom_point()` layer.
+
+```{r, fig.align='center', fig.height=4, fig.width=5}
+ggplot(Cars93, aes(x = EngineSize, y = Price)) + geom_point()
+```
+
+**(c)** Repeat part (b), but this time specifying that the `color` mapping should depend on `Type` and the `shape` mapping should depend on `DriveTrain`.  
+
+```{r, fig.align='center', fig.height=4, fig.width=5}
+ggplot(Cars93, aes(x = EngineSize, y = Price, colour = Type, shape = DriveTrain)) + geom_point()
+```
+# Create data for the graph.
+x <-  c(21, 62, 10,53)
+labels <-  c("London","New York","Singapore","Mumbai")
+
+piepercent<- round(100*x/sum(x), 1)
+
+# Give the chart file a name.
+png(file = "city_percentage_legends.jpg")
+
+# Plot the chart.
+pie(x, labels = piepercent, main = "City pie chart",col = rainbow(length(x)))
+legend("topright", c("London","New York","Singapore","Mumbai"), cex = 0.8,
+   fill = rainbow(length(x)))
+
+# Save the file.
+dev.off()
+
+
+
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

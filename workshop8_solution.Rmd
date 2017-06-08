@@ -1,0 +1,79 @@
+---
+title: "Workshop8"
+author: "Manirath Wongsim"
+date: ''
+output: pdf_document
+---
+
+We'll begin by loading all the packages we might need.
+```{r}
+library(MASS)
+library(plyr)
+library(reshape)  # You may need to install this one first!
+library(ggplot2)
+```
+
+### Is the data normal?
+
+**(a)** Construct histograms of `MPG.highway`, one plot for each `Origin` category.
+
+```{r}
+qplot(x = MPG.highway, data = Cars93, facets = ~Origin, geom = "histogram", fill = Origin, binwidth = 2)
+```
+
+**(b)** Does the data look to be normally distributed?
+
+The histograms don't really look normally distributed, so we might be better off using the non-parametric test.
+
+**(c)** Construct qqplots of `MPG.highway`, one plot for each `Origin` category.  Overlay a line on each plot using with `qqline()` function.
+
+```{r, fig.height = 4}
+par(mfrow = c(1,2))
+# USA cars
+with(Cars93, qqnorm(MPG.highway[Origin == "USA"]))
+with(Cars93, qqline(MPG.highway, col = "blue"))
+# Foreign cars
+with(Cars93, qqnorm(MPG.highway[Origin == "non-USA"]))
+with(Cars93, qqline(MPG.highway, col = "blue"))
+```
+
+**(d)** Does the data look to be normally distributed?
+
+The non-USA MPG.highway data looks very far from normally distributed.
+
+
+### Testing means between two groups
+
+**(a)** Using the Cars93 data and the `t.test()` function, run a t-test to see if average `MPG.highway` is different between US and non-US vehicles.
+
+Try doing this both using the formula style input and the `x`, `y` style input.
+
+```{r}
+# Formula version
+mpg.t.test <- t.test(MPG.highway ~ Origin, data = Cars93)
+mpg.t.test
+```
+## at confident level = 90%
+```{r}
+mpg.t.test <- t.test(MPG.highway ~ Origin, data = Cars93, conf.level = 0.90)
+mpg.t.test
+```
+
+# x, y version
+with(Cars93, t.test(x = MPG.highway[Origin == "USA"], y = MPG.highway[Origin == "non-USA"]))
+```
+
+**(b)** What is the confidence interval for the difference?
+
+```{r}
+mpg.t.test$conf.int
+```
+
+**(c)** Repeat part (a) using the `wilcox.test()` function.
+
+```{r}
+mpg.wilcox.test <- wilcox.test(MPG.highway ~ Origin, data = Cars93)
+mpg.wilcox.test
+```
+
+

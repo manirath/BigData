@@ -1,0 +1,86 @@
+---
+title: "workshop_R1"
+author: "manirath"
+date: "June 8, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+
+```{r}
+survery.program1 <-read.csv("survey_messy.csv", header = TRUE)
+```
+
+
+```{r}
+survery.program1 <-read.csv("survey_messy.csv", header = TRUE)
+View(survery.program1)
+str(survery.program1)
+```
+```{r}
+tv.hours.messy <- survery.program1$TVhours
+as.character(tv.hours.messy)[1:30]
+```
+```{r}
+as.numeric(as.character(tv.hours.messy))[1:30]
+```
+
+
+```{r}
+typeof(as.numeric(as.character(tv.hours.messy)))
+```
+
+
+```{r}
+tv.hours.strings <- as.character(tv.hours.messy)
+tv.hours.strings
+```
+
+```{r}
+gsub("[^0-9]","",tv.hours.strings)
+```
+
+
+```{r}
+tv.hours.messy
+```
+
+
+```{r}
+tv.hours.clean <- as.numeric(gsub("[^0-9]","",tv.hours.strings))
+tv.hours.clean
+```
+
+```{r}
+survery.program1 <- read.csv("survey_messy.csv", header=TRUE, stringsAsFactors = FALSE)
+str(survery.program1)
+```
+
+```{r}
+survey <- transform(survery.program1, TVhours = as.numeric(gsub("[^0-9.]", "", TVhours)))
+str(survey)
+```
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -132,4 +132,26 @@ print(merged.Pima)
 nrow(merged.Pima
 ```
 
+
+```{r}
+chests <- c('gold', 'silver', 'gems', 'gold', 'gems')
+
+types <- factor(chests)
+weights <- c(300, 200, 100, 250, 150)
+prices <- c(9000, 5000, 12000, 7500, 18000)
+```
+```{r}
+treasure <- data.frame(weights, prices, types)
+print(treasure)
+
+```
+```{r}
+print(treasure[[2]])
+print(treasure[["weights"]])
+```
+
+```{r}
+read.table('infantry.txt', sep = "\t")
+```
+
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
