@@ -90,7 +90,7 @@ birthwt.lm$model
 ```{r}
 
 formula_birthwt <- lm(birthwt.grams ~ mother.smokes + mother.weight + race, data=birthwt)
-summary(lm.fit5)
+summary(formula_birthwt)
 
 ```
 
