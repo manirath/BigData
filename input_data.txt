@@ -1,5 +1,0 @@
-airline = "http://www.theacsi.org/index.php?option=com_content&view=article&id=147&catid=&Itemid=212&i=Airlines"
-
-airline.table = readHTMLTable(airline, header=T, which=1,stringsAsFactors=F)
-
-
