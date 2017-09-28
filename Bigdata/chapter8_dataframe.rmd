@@ -1,0 +1,157 @@
+---
+title: "chapter8_dataframe"
+author: "manirath"
+date: "June 6, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+```{r}
+# Create the data frame.
+emp.data <- data.frame(
+   emp_id = c (1:5), 
+   emp_name = c("Rick","Dan","Michelle","Ryan","Gary"),
+   salary = c(623.3,515.2,611.0,729.0,843.25), 
+   
+   start_date = as.Date(c("2012-01-01", "2013-09-23", "2014-11-15", "2014-05-11",
+      "2015-03-27")),
+   stringsAsFactors = FALSE
+)
+# Print the data frame.			
+print(emp.data) 
+```
+
+```{r}
+# Create the data frame.
+emp.data <- data.frame(
+   emp_id = c (1:5), 
+   emp_name = c("Rick","Dan","Michelle","Ryan","Gary"),
+   salary = c(623.3,515.2,611.0,729.0,843.25), 
+   
+   start_date = as.Date(c("2012-01-01", "2013-09-23", "2014-11-15", "2014-05-11",
+      "2015-03-27")),
+   stringsAsFactors = FALSE
+)
+# Get the structure of the data frame.
+str(emp.data)
+```
+
+```{r}
+install.packages("Package Name")
+ 
+# Install the package named "XML".
+ install.packages("XML")
+
+```
+
+
+```{r}
+install.packages(file_name_with_path, repos = NULL, type = "source")
+
+# Install the package named "XML"
+install.packages("E:/XML_3.98-1.3.zip", repos = NULL, type = "source")
+```
+
+
+```{r}
+library("package Name", lib.loc = "path to library")
+
+# Load the package named "XML"
+install.packages("E:/XML_3.98-1.3.zip", repos = NULL, type = "source")
+
+```
+
+
+```{r}
+# Create vector objects.
+city <- c("Tampa","Seattle","Hartford","Denver")
+state <- c("FL","WA","CT","CO")
+zipcode <- c(33602,98104,06161,80294)
+
+# Combine above three vectors into one data frame.
+addresses <- cbind(city,state,zipcode)
+
+# Print a header.
+cat("# # # # The First data frame\n") 
+
+# Print the data frame.
+print(addresses)
+
+# Create another data frame with similar columns
+new.address <- data.frame(
+   city = c("Lowry","Charlotte"),
+   state = c("CO","FL"),
+   zipcode = c("80230","33949"),
+   stringsAsFactors = FALSE
+)
+
+# Print a header.
+cat("# # # The Second data frame\n") 
+
+# Print the data frame.
+print(new.address)
+
+# Combine rows form both the data frames.
+all.addresses <- rbind(addresses,new.address)
+
+# Print a header.
+cat("# # # The combined data frame\n") 
+
+# Print the result.
+print(all.addresses)
+```
+
+
+```{r}
+library(MASS)
+merged.Pima <- merge(x = Pima.te, y = Pima.tr,
+   by.x = c("bp", "bmi"),
+   by.y = c("bp", "bmi")
+)
+print(merged.Pima)
+nrow(merged.Pima
+```
+
+
+```{r}
+chests <- c('gold', 'silver', 'gems', 'gold', 'gems')
+
+types <- factor(chests)
+weights <- c(300, 200, 100, 250, 150)
+prices <- c(9000, 5000, 12000, 7500, 18000)
+```
+```{r}
+treasure <- data.frame(weights, prices, types)
+print(treasure)
+
+```
+```{r}
+print(treasure[[2]])
+print(treasure[["weights"]])
+```
+
+```{r}
+read.table('infantry.txt', sep = "\t")
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

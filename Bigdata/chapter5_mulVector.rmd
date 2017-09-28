@@ -1,0 +1,158 @@
+---
+title: "chapter5_multiVec"
+author: "manirath"
+date: "June 6, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+```{r}
+# Creating a sequence from 5 to 13.
+v <- 5:13
+print(v)
+
+# Creating a sequence from 6.6 to 12.6.
+v <- 6.6:12.6
+print(v)
+
+# If the final element specified does not belong to the sequence then it is discarded.
+v <- 3.8:11.4
+print(v)
+```
+
+```{r}
+# Create vector with elements from 5 to 9 incrementing by 0.4.
+print(seq(5, 9, by = 0.4))
+```
+
+```{r}
+# The logical and numeric values are converted to characters.
+s <- c('apple','red',5,TRUE)
+print(s)
+```
+```{r}
+# Accessing vector elements using position.
+t <- c("Sun","Mon","Tue","Wed","Thurs","Fri","Sat")
+u <- t[c(2,3,6)]
+print(u)
+
+# Accessing vector elements using logical indexing.
+v <- t[c(TRUE,FALSE,FALSE,FALSE,FALSE,TRUE,FALSE)]
+print(v)
+
+# Accessing vector elements using negative indexing.
+x <- t[c(-2,-5)]
+print(x)
+
+# Accessing vector elements using 0/1 indexing.
+y <- t[c(0,0,0,0,0,0,1)]
+print(y)
+```
+
+```{r}
+# Create two vectors.
+v1 <- c(3,8,4,5,0,11)
+v2 <- c(4,11,0,8,1,2)
+
+# Vector addition.
+add.result <- v1+v2
+print(add.result)
+
+# Vector substraction.
+sub.result <- v1-v2
+print(sub.result)
+
+# Vector multiplication.
+multi.result <- v1*v2
+print(multi.result)
+
+# Vector division.
+divi.result <- v1/v2
+print(divi.result)
+```
+
+```{r}
+v1 <- c(3,8,4,5,0,11)
+v2 <- c(4,11)
+# V2 becomes c(4,11,4,11,4,11)
+
+add.result <- v1+v2
+print(add.result)
+
+sub.result <- v1-v2
+print(sub.result)
+```
+```{r}
+v <- c(3,8,4,5,0,11, -9, 304)
+
+# Sort the elements of the vector.
+sort.result <- sort(v)
+print(sort.result)
+
+# Sort the elements in the reverse order.
+revsort.result <- sort(v, decreasing = TRUE)
+print(revsort.result)
+
+# Sorting character vectors.
+v <- c("Red","Blue","yellow","violet")
+sort.result <- sort(v)
+print(sort.result)
+
+# Sorting character vectors in reverse order.
+revsort.result <- sort(v, decreasing = TRUE)
+print(revsort.result)
+```
+
+```{r}
+data <- c(10, 7, 4, 13)
+barplot(data)
+data <- c(10, 7, 4, 13)
+names(data) <- c("First", "Two", "Three", "Four")
+barplot(data)
+```
+
+#การเพิ่มค่าให้กับ vector จะเพิ่มค่าให้ทุกตัวใน vector ด้วย เช่น
+
+```{r}
+a <- c(1, 2, 3)
+a + 1
+```
+
+```{r}
+a <- c(1, 2, 3)
+b <- c(5, 6, 7)
+print(a + b)
+```
+#ในกรณีที่ จำนวนค่าใน vector ไม่เท่ากัน ลองทดสอบดูจาก r-fiddle มันจะก็อปค่า vector ที่สั้นกว่า ให้ยาวเท่ากับ vector อันยาว แล้วถึงทำ operator เช่น
+
+```{r}
+a <- c(1, 2, 3)
+b <- c(2, 5, 3, 1, 2, 6, 7)
+print(a+b)
+
+```
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

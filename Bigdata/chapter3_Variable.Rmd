@@ -1,0 +1,67 @@
+---
+title: "chapter3_Variable"
+author: "manirath"
+date: "June 6, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+# Assignment using equal operator.
+var.1 = c(0,1,2,3)           
+
+# Assignment using leftward operator.
+var.2 <- c("learn","R")   
+
+# Assignment using rightward operator.   
+c(TRUE,1) -> var.3           
+
+print(var.1)
+cat ("var.1 is ", var.1 ,"\n")
+cat ("var.2 is ", var.2 ,"\n")
+cat ("var.3 is ", var.3 ,"\n")
+```
+```{r}
+var_x <- "Hello"
+cat("The class of var_x is ",class(var_x),"\n")
+
+var_x <- 34.5
+cat("  Now the class of var_x is ",class(var_x),"\n")
+
+var_x <- 27L
+cat("   Next the class of var_x becomes ",class(var_x),"\n")
+```
+
+```{r}
+print(ls())
+```
+
+
+```{r}
+# List the variables starting with the pattern "var".
+print(ls(pattern = "var"))   
+
+
+```
+
+```{r}
+print(ls(all.name = TRUE))
+```
+
+
+
+
+
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
