@@ -1,0 +1,119 @@
+---
+title: "K-Nearest"
+author: "Manirath Wongsim"
+date: "April 29, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Read data
+data1 = read.csv('USPresidentialData.csv')
+View(data1)
+```
+
+```{r}
+    # load library
+    library(caret)
+    library(e1071)
+
+# Transforming the dependent variable to a factor
+    data1$Win.Loss = as.factor(data1$Win.Loss)
+
+
+```
+
+```{r}
+#Partitioning the data into training and validation data
+set.seed(101)
+index = createDataPartition(data1$Win.Loss, p = 0.7, list = F )
+train = data1[index,]
+validation = data1[-index,]
+```
+
+```{r}
+# Explore data
+dim(train)
+dim(validation)
+names(train)
+head(train)
+head(validation)
+```
+
+```{r}
+    # Setting up train controls
+    repeats = 3
+    numbers = 10
+    tunel = 10
+    set.seed(1234)
+    x = trainControl(method = “repeatedcv”,
+                     number = numbers,
+                     repeats = repeats,
+                     classProbs = TRUE,
+                     summaryFunction = twoClassSummary)
+```
+
+```{r}
+    model1 <- train(Win.Loss~. , data = train, method = “knn”,
+                   preProcess = c(“center”,”scale”),
+                   trControl = x,
+                   metric = “ROC”,
+                   tuneLength = tunel)
+    # Summary of model
+    model1
+    plot(model1)
+
+```
+
+```{r}
+    # Validation
+    valid_pred <- predict(model1,validation, type = “prob”)
+
+    #Storing Model Performance Scores
+    library(ROCR)
+    pred_val <-prediction(valid_pred[,2],validation$Win.Loss)
+
+    # Calculating Area under Curve (AUC)
+    perf_val <- performance(pred_val,”auc”)
+    perf_val
+
+    # Plot AUC
+    perf_val <- performance(pred_val, “tpr”, “fpr”)
+    plot(perf_val, col = “green”, lwd = 1.5)
+
+    #Calculating KS statistics
+    ks <- max(attr(perf_val, “y.values”)[[1]] – (attr(perf_val, “x.values”)[[1]]))
+    ks
+```
+
+```{r}
+newiris <- iris
+newiris$Species <- NULL
+```
+
+```{r}
+(kc <- kmeans(newiris, 3))
+K-means clustering with 3 clusters of sizes 38, 50, 62
+```
+
+```{r}
+table(iris$Species, kc$cluster)
+```
+
+```{r}
+plot(newiris[c("Sepal.Length", "Sepal.Width")], col=kc$cluster)
+points(kc$centers[,c("Sepal.Length", "Sepal.Width")], col=1:3, pch=8, cex=2)
+```
+
+
+
+
+
+
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

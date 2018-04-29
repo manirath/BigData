@@ -1,0 +1,38 @@
+---
+title: "DecisionTree"
+author: "Manirath Wongsim"
+date: "April 29, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(party)
+print(head(readingSkills))
+
+```
+
+```{r}
+input.dat <- readingSkills[c(1:105),]
+
+# Give the chart file a name.
+png(file = "decision_tree.png")
+
+# Create the tree.
+  output.tree <- ctree(
+  nativeSpeaker ~ age + shoeSize + score, 
+  data = input.dat)
+
+# Plot the tree.
+plot(output.tree)
+
+# Save the file.
+dev.off()
+```
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
