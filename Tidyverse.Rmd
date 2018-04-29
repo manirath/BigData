@@ -1,0 +1,255 @@
+---
+title: "Tidyverse"
+author: "Manirath Wongsim"
+date: "April 28, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+library(tidyverse)
+library(reshape2)
+```
+
+```{r}
+housing = read.csv('~/Downloads/r-programming-master/housing/housing.csv')
+str(housing)
+```
+
+```{r}
+par(mfrow=c(2,5))
+colnames(housing)
+```
+
+```{r}
+install.packages(c("devtools", "rjson", "bit64", "httr"))
+library(devtools)
+install_github("twitteR", username="geoffjentry")
+library(twitteR)
+```
+
+```{r}
+# Load the required R libraries
+install.packages("RColorBrewer")
+install.packages("tm")
+install.packages("wordcloud")
+install.packages('base64enc')
+install.packages('ROAuth')
+install.packages('plyr')
+install.packages('stringr')
+install.packages('twitteR')
+
+library(RColorBrewer)
+library(wordcloud)
+library(tm)
+library(twitteR)
+library(ROAuth)
+library(plyr)
+library(stringr)
+library(base64enc)
+```
+
+
+```{r}
+#install.packages("twitteR")
+library(twitteR)
+
+# Change the next four lines based on your own consumer_key, consume_secret, access_token, and access_secret. 
+consumer_key <- "mAOJxuFOBILhXAZjZYO0i11DR"
+consumer_secret <- "siaz3dhcbJmpGrZN3Vm5f8E3DGNeVnisD3bkwBvU5s59tlZwgh"
+access_token <- "990221021566267393-xMGN4AvdPY6iRrIu3VDfivzydmqxx3y"
+access_secret <- "Vy3Fvmci39qFXVKw1I6iEAa69VkwJDkR2Bx9jk8WfTXJ9"
+setup_twitter_oauth(consumer_key, consumer_secret, access_token, access_secret)
+tw = twitteR::searchTwitter('#realDonaldTrump + #HillaryClinton', n = 1e4, since = '2016-11-08', retryOnRateLimit = 1e3)
+d = twitteR::twListToDF(tw)
+```
+
+
+```{r}
+setup_twitter_oauth(consumer_key, consumer_secret, access_token, access_secret)
+tw = twitteR::searchTwitter('#realDonaldTrump + #HillaryClinton', n = 1e4, since = '2016-11-08', retryOnRateLimit = 1e3)
+d = twitteR::twListToDF(tw)
+```
+
+```{r}
+airports <- read.csv("https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat", header = FALSE)
+colnames(airports) <- c("ID", "name", "city", "country", "IATA_FAA", "ICAO", "lat", "lon", "altitude", "timezone", "DST")
+head(airports)
+```
+
+```{r}
+ 
+library(rworldmap)
+newmap <- getMap(resolution = "low")
+plot(newmap, xlim = c(-20, 59), ylim = c(35, 71), asp = 1)
+```
+
+
+```{r}
+newmap <- getMap(resolution = "low")
+plot(newmap, xlim = c(-20, 59), ylim = c(35, 71), asp = 1)
+```
+
+
+```{r}
+ routes <- read.csv("https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat", header=F)
+colnames(routes) <- c("airline", "airlineID", "sourceAirport", "sourceAirportID", "destinationAirport", "destinationAirportID", "codeshare", "stops", "equipment")
+head(routes)
+```
+
+```{r}
+library(plyr)
+departures <- ddply(routes, .(sourceAirportID), "nrow")
+names(departures)[2] <- "flights"
+arrivals <- ddply(routes, .(destinationAirportID), "nrow")
+names(arrivals)[2] <- "flights"
+```
+
+```{r}
+library(ggmap)
+library(mapproj)
+map <- get_map(location = 'Europe', zoom = 4)
+ggmap(map)
+```
+
+```{r}
+library(ggmap)
+europe.limits <- geocode(c("CapeFligely,RudolfIsland,Franz Josef Land,Russia",
+  "Gavdos,Greece",
+   "Faja Grande,Azores",
+  "SevernyIsland,Novaya Zemlya,Russia")
+ )
+ europe.limits
+```
+
+```{r}
+library(ggmap)
+library(mapproj)
+map <- get_map(location = 'Europe', zoom = 4)
+ggmap(map)
+ 
+library(rworldmap)
+newmap <- getMap(resolution = "low")
+plot(newmap)
+ 
+plot(newmap,
+  xlim = c(-20, 59),
+  ylim = c(35, 71),
+  asp = 1
+)
+ 
+library(ggmap)
+europe.limits <- geocode(c("CapeFligely,RudolfIsland,Franz Josef Land,Russia",
+  "Gavdos,Greece",
+  "Faja Grande,Azores",
+  "SevernyIsland,Novaya Zemlya,Russia")
+)
+europe.limits
+ 
+plot(newmap,
+  xlim = range(europe.limits$lon),
+  ylim = range(europe.limits$lat),
+  asp = 1
+)
+```
+
+
+```{r}
+airportD <- merge(airports, departures, by.x = "ID", by.y = "sourceAirportID")
+airportA <- merge(airports, arrivals, by.x = "ID", by.y = "destinationAirportID")
+```
+
+```{r}
+library(ggmap)
+map <- get_map(location = 'Europe', zoom = 4)
+```
+
+```{r}
+ mapPoints <- ggmap(map) +
++   geom_point(aes(x = lon, y = lat, size = sqrt(flights)), data = airportD, alpha = .5)
+```
+
+```{r}
+mapPointsLegend <- mapPoints +
++   scale_area(breaks = sqrt(c(1, 5, 10, 50, 100, 500)), labels = c(1, 5, 10, 50, 100, 500), name = "departing routes")
+mapPointsLegend
+```
+
+```{r}
+# create the data set containing both departures and arrivals
+airportD$type <- "departures"
+airportA$type <- "arrivals"
+airportDA <- rbind(airportD, airportA)
+ 
+# map the data
+# map + data points
+mapPointsDA <- ggmap(map) +
++   geom_point(aes(x = lon, y = lat, size = sqrt(flights)), data = airportDA, alpha = .5)
+# adjust the legend
+mapPointsLegendDA <- mapPointsDA +
++   scale_area(breaks = sqrt(c(1, 5, 10, 50, 100, 500)), labels = c(1, 5, 10, 50, 100, 500), name = "routes")
+# panels according to type (departure/arrival)
+mapPointsFacetsDA <- mapPointsLegendDA +
++   facet_grid(. ~ type)
+# plot the map
+mapPointsFacetsDA
+```
+
+```{r}
+require(httr)
+full_url <- oauth_callback()
+full_url <- gsub("(.*localhost:[0-9]{1,5}/).*", x=full_url, replacement="\\1")
+print(full_url)
+```
+
+```{r}
+app_name <- "manirath wongsim"
+client_id <- "0ecd11a77ba04e498097f2d74ea0c24f"
+client_secret <- "6c1e29acc7f3490eaffaa79de0fde32d"
+scope = "public_content"
+```
+
+```{r}
+instagram <- oauth_endpoint(
+  authorize = "https://api.instagram.com/oauth/authorize",
+  access = "https://api.instagram.com/oauth/access_token")
+myapp <- oauth_app(app_name, client_id, client_secret)
+```
+
+```{r}
+ig_oauth <- oauth2.0_token(instagram, myapp,scope="basic",  type = "application/x-www-form-urlencoded",cache=FALSE)
+tmp <- strsplit(toString(names(ig_oauth$credentials)), '"')
+token <- tmp[[1]][30]
+```
+
+```{r}
+user_info <- fromJSON(getURL(paste('https://api.instagram.com/v1/users/self/?access_token=',token,sep="")))
+```
+
+```{r}
+library(rjson)
+library(instaR)
+library(httr)
+library(jsonlite)
+library(RCurl)
+media <- fromJSON(getURL(paste('https://api.instagram.com/v1/users/self/media/recent/?access_token=',token,sep="")))received_profile <- user_info$data$id
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
