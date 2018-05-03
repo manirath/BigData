@@ -33,7 +33,7 @@ colnames(housing)
 ```{r}
 install.packages(c("devtools", "rjson", "bit64", "httr"))
 library(devtools)
-install_github("twitteR", username="geoffjentry")
+install_github("twitteR")
 library(twitteR)
 ```
 
@@ -48,6 +48,9 @@ install.packages('plyr')
 install.packages('stringr')
 install.packages('twitteR')
 
+```
+
+```{r}
 library(RColorBrewer)
 library(wordcloud)
 library(tm)
@@ -69,8 +72,12 @@ consumer_secret <- "siaz3dhcbJmpGrZN3Vm5f8E3DGNeVnisD3bkwBvU5s59tlZwgh"
 access_token <- "990221021566267393-xMGN4AvdPY6iRrIu3VDfivzydmqxx3y"
 access_secret <- "Vy3Fvmci39qFXVKw1I6iEAa69VkwJDkR2Bx9jk8WfTXJ9"
 setup_twitter_oauth(consumer_key, consumer_secret, access_token, access_secret)
-tw = twitteR::searchTwitter('#realDonaldTrump + #HillaryClinton', n = 1e4, since = '2016-11-08', retryOnRateLimit = 1e3)
+tw<-twitteR::searchTwitter('#realDonaldTrump + #HillaryClinton', n = 1e4, since = '2017-11-08', retryOnRateLimit = 1e3)
 d = twitteR::twListToDF(tw)
+```
+
+```{r}
+View(tw)
 ```
 
 
@@ -155,6 +162,10 @@ europe.limits <- geocode(c("CapeFligely,RudolfIsland,Franz Josef Land,Russia",
 )
 europe.limits
  
+```
+
+```{r}
+
 plot(newmap,
   xlim = range(europe.limits$lon),
   ylim = range(europe.limits$lat),
@@ -211,25 +222,38 @@ full_url <- gsub("(.*localhost:[0-9]{1,5}/).*", x=full_url, replacement="\\1")
 print(full_url)
 ```
 
+
 ```{r}
 app_name <- "manirath wongsim"
 client_id <- "0ecd11a77ba04e498097f2d74ea0c24f"
 client_secret <- "6c1e29acc7f3490eaffaa79de0fde32d"
-scope = "public_content"
+scope = "basic"
 ```
 
 ```{r}
 instagram <- oauth_endpoint(
-  authorize = "https://api.instagram.com/oauth/authorize",
+  authorize = "https://www.instagram.com/",
   access = "https://api.instagram.com/oauth/access_token")
 myapp <- oauth_app(app_name, client_id, client_secret)
 ```
 
 ```{r}
+str(myapp)
+```
+
+
+```{r}
 ig_oauth <- oauth2.0_token(instagram, myapp,scope="basic",  type = "application/x-www-form-urlencoded",cache=FALSE)
 tmp <- strsplit(toString(names(ig_oauth$credentials)), '"')
-token <- tmp[[1]][30]
+token <- tmp[[1]][4]
 ```
+
+
+```{r}
+View(tmp)
+```
+
+
 
 ```{r}
 user_info <- fromJSON(getURL(paste('https://api.instagram.com/v1/users/self/?access_token=',token,sep="")))

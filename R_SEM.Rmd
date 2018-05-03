@@ -1,0 +1,167 @@
+---
+title: "SEM_research"
+author: "Manirath Wongsim"
+date: "January 27, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+bfi.keys.list <- list(agree=c(-1, 2, 3, 4, 5),
+  consc=c(6, 7, 8, -9, -10),
+  extra=c(-11, -12, 13, 14, 15),
+  neuro=c(16, 17, 18, 19, 20),
+  open=c(21, -22, 23, 24, -25))
+bfi.keys.list
+```
+
+```{r}
+output.alpha.agree <- alpha(bfi.items[,abs(bfi.keys.list$agree)],
+  check.keys=TRUE)
+output.alpha.agree
+
+```
+
+```{r}
+plot(output.alpha.agree)
+```
+
+
+```{r}
+sample(1:6, replace = TRUE)
+```
+
+```{r}
+sample(1:6, 10, replace = TRUE)
+```
+
+```{r}
+View(bfi.keys.list)
+```
+
+
+
+```{r}
+library(QuantPsyc)
+  Grades <- c(82,98,76,68,84,99,67,58,50,78)
+  Absences <- c(4,2,2,3,1,0,4,8,7,3)
+  SAT_Score <- c(620,750,500,520,540,690,590,490,450,560)
+```
+
+```{r}
+MultipleRegression <- lm(Grades ~ Absences + SAT_Score)
+summary(MultipleRegression)
+lm.beta(MultipleRegression)
+```
+
+```{r}
+ library(semPlot)
+semPaths(MultipleRegression,"model","estimates", layout = "tree", rotation = 2)
+```
+
+```{r}
+library(quantreg)
+  model.rq <- rq(Temp ~ Wind, airquality, tau=c(0.25, 0.5, 0.75))
+  quantile.regressions <- data.frame(t(coef(model.rq)))
+  colnames(quantile.regressions) <- c("intercept", "slope")
+  quantile.regressions$quantile <- rownames(quantile.regressions)
+  quantile.regressions
+```
+
+```{r}
+library(ggplot2)
+  scatterplot <- qplot(x=Wind, y=Temp, data=airquality)
+  scatterplot + geom_abline(aes(intercept=intercept, slope=slope,
+                              colour=quantile), data=quantile.regressions)
+
+```
+
+```{r}
+?Thurstone
+  head(Thurstone)
+  Thurstone
+  library(psych)
+  mediate(y=1,x=2,m=3,data=Thurstone)
+```
+
+
+```{r}
+library(foreign)
+  Pathingram <-read.spss("Pathingram.sav",to.data.frame=TRUE)
+
+```
+
+```{r}
+ library(psych)
+  library(GPArotation)
+  data("bfi")
+  head(bfi)
+  bfi
+```
+
+```{r}
+ data <- read.csv(file="QABCD1.csv", header=TRUE, sep=",")
+  head (data)
+  data
+```
+```{r}
+library(psych)
+  library(GPArotation)
+```
+
+
+```{r}
+
+parallel<-fa.parallel(data, fm='minres', fa='fa')
+```
+
+```{r}
+fourfactor<-fa(data,nfactors=4,rotate="oblimin", fm='minres')
+  print(fourfactor)
+  print(fourfactor$loadings,cutoff = 0.5)
+  fa.diagram(fourfactor)
+```
+
+```{r}
+plot(fourfactor)
+```
+
+```{r}
+my.data <- read.csv(file="dataset_EFA.csv", header=TRUE, sep=",")
+
+```
+
+```{r}
+my.data
+
+  n.factors <- 2   
+
+  fit <- factanal(my.data, 
+                n.factors,                # number of factors to extract
+                scores=c("regression"),
+                rotation="none")
+```
+
+```{r}
+scores <- factanal(na.omit(my.data), 2,
+                   rotation="none",
+                   scores = "regression")
+```
+
+```{r}
+scores <- factanal(na.omit(my.data), 2,
+                   rotation="varimax",
+                   scores = "regression")
+
+  head(scores$scores)
+```
+
+```{r}
+
+```
+
