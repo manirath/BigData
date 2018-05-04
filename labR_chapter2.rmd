@@ -1,0 +1,113 @@
+---
+title: "labR_chapter2"
+author: "Manirath Wongsim"
+date: "July 15, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+```{r}
+library(MASS)
+str(birthwt)
+```
+
+```{r}
+colnames(birthwt) <- c("birthwt.below.2500", "mother.age", "mother.weight", "race", "mother.smokes", "previous.prem.labor", "hypertension", "uterine.irr","physician.visits", "birthwt.grams")
+colnames(birthwt)
+View(birthwt)
+```
+
+```{r}
+library(plyr)
+birthwt <- transform(birthwt, 
+            race = as.factor(mapvalues(race, c(1, 2, 3), 
+                              c("white","black", "other"))),
+            mother.smokes = as.factor(mapvalues(mother.smokes, 
+                              c(0,1), c("no", "yes"))),
+            hypertension = as.factor(mapvalues(hypertension, 
+                              c(0,1), c("no", "yes"))),
+            uterine.irr = as.factor(mapvalues(uterine.irr, 
+                              c(0,1), c("no", "yes")))
+            )
+View(birthwt)
+```
+
+```{r}
+par(mfrow = c(2,2))
+with(birthwt, hist(mother.age))
+plot(birthwt$mother.smokes)
+plot(birthwt$birthwt.grams)
+```
+
+
+
+```{r}
+summary(birthwt)
+```
+
+```{r}
+birthwt.t.test <- t.test(birthwt.grams ~ mother.smokes, data = birthwt)
+birthwt.t.test
+```
+
+
+```{r}
+with(birthwt, tapply(birthwt.grams, INDEX = list(race,mother.smokes), FUN = mean))
+```
+
+```{r}
+par(mfrow=c(2,2))
+plot(birthwt$mother.age)
+with(birthwt, hist(mother.age))
+plot(birthwt$mother.smokes)
+plot(birthwt$birthwt.grams)
+```
+
+```{r}
+library(ggplot2)
+library(MASS)
+dim(diamonds)
+head(diamonds)
+```
+
+```{r}
+diamond.plot <- ggplot(data=diamonds, aes(x=carat, y=price))
+diamond.plot + geom_point()
+```
+
+```{r}
+library(ggplot2)
+library(MASS)
+diamond5 <- ggplot(data=diamonds, aes(x=carat, y=price, colour = color))
+diamond5 + geom_point()
+```
+
+```{r}
+diamond.plot <- ggplot(data=diamonds, aes(x=carat, y=price, colour = color))
+
+diamond.plot + geom_point() + facet_wrap(~ cut)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+bir
