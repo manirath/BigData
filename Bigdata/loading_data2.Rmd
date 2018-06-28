@@ -1,0 +1,33 @@
+---
+title: "loading_data2"
+author: "Manirath Wongsim"
+date: "June 28, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+```{r}
+install.packages("MASS")
+install.packages("gplots")
+install.packages("ggplot2")
+install.packages('base64enc')
+install.packages('gtable')
+install.packages('dataframes2xls')
+install.packages('httr')
+install.packages('XML')
+install.packages('rvest')
+install.packages('plyr')
+```
+
+```{r}
+library(XML)
+airline = "http://www.theacsi.org/benchmarks-by-industry-14729"
+airline.table = readHTMLTable(airline, header=T, which=1,stringsAsFactors=F)
+View(airline.table)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
