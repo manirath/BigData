@@ -1,0 +1,156 @@
+---
+title: "analytic_data"
+author: "Manirath Wongsim"
+date: "June 29, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+```{r}
+library(MASS)
+library(plyr)
+library(ggplot2)
+```
+
+```{r}
+# Rename the columns to have more descriptive names
+colnames(birthwt) <- c("birthwt.below.2500", "mother.age", "mother.weight", 
+    "race", "mother.smokes", "previous.prem.labor", "hypertension", "uterine.irr", 
+    "physician.visits", "birthwt.grams")
+
+# Transform variables to factors with descriptive levels
+
+```
+
+```{r}
+birthwt <- transform(birthwt, 
+            race = as.factor(mapvalues(race, c(1, 2, 3), 
+                              c("white","black", "other"))),
+            mother.smokes = as.factor(mapvalues(mother.smokes, 
+                              c(0,1), c("no", "yes"))),
+            hypertension = as.factor(mapvalues(hypertension, 
+                              c(0,1), c("no", "yes"))),
+            uterine.irr = as.factor(mapvalues(uterine.irr, 
+                              c(0,1), c("no", "yes")))
+            )
+```
+
+
+```{r}
+View(birthwt)
+```
+
+```{r}
+phys.visit.binned <- birthwt$physician.visits
+phys.visit.binned[phys.visit.binned >= 3] <- "3.or.more"
+birthwt <- transform(birthwt, phys.visit.binned = as.factor(phys.visit.binned))
+
+birthwt$phys.visit.binned
+```
+
+
+```{r}
+View(birthwt)
+```
+
+
+```{r}
+birthwt.lm <- lm(birthwt.grams ~ mother.age + mother.smokes + race, data = birthwt)
+
+summary(birthwt.lm)
+plot(birthwt.lm)
+```
+
+```{r}
+ggplot(birthwt, aes(x=mother.age, y=birthwt.grams, shape=mother.smokes, color=mother.smokes)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  ylab("Birth Weight (grams)") + 
+  xlab("Mother's Age (years)") + 
+  ggtitle("Birth Weight by Mother's Age") 
+```
+
+```{r}
+View(birthwt)
+```
+
+```{r}
+library(party)
+print(head(readingSkills))
+```
+
+```{r}
+View(readingSkills)
+```
+
+
+```{r}
+input.dat <- readingSkills[c(1:105),]
+
+# Give the chart file a name.
+png(file = "decision_tree.png")
+
+# Create the tree.
+  output.tree <- ctree(
+  nativeSpeaker ~ age + shoeSize + score, 
+  data = input.dat)
+
+```
+
+```{r}
+plot(output.tree)
+```
+
+```{r}
+formula_birthwt <- lm(birthwt.grams ~ mother.smokes + mother.weight + race, data=birthwt)
+summary(formula_birthwt)
+```
+
+
+```{r}
+pd <- predict(birthwt.lm, birthwt[2,], level = 0.99)
+str(pd)
+pd
+
+pd <- predict(birthwt.lm, birthwt[3,], level = 0.99)
+str(pd)
+
+```
+
+
+```{r}
+library(rpart)
+```
+
+```{r}
+set.seed(15)
+example_tree<-sample(1:nrow(birthwt),0.75*nrow(birthwt))
+```
+
+```{r}
+View(birthwt)
+```
+
+
+```{r}
+birthwtTree<-rpart(low~.-bwt,data=birthwt[example_tree,], method = 'class')
+plot(birthwtTree)
+text(birthwtTree, pretty = 0)
+```
+
+```{r}
+birthwPred<-predict(birthwtTree, birthwt[-example_tree, ], type = 'class')
+table(birthwPred, birthwt[-example_tree, ]$low)
+```
+
+(26+7)/(31+5+2+10)
+33/48 =0.75
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
