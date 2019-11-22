@@ -1,0 +1,64 @@
+---
+title: "problems_missing"
+author: "Manirath Wongsim"
+date: "November 16, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(MASS)
+```
+
+```{r}
+hr.missing<-read.csv("HRData.csv", header = TRUE)
+```
+
+```{r}
+View(hr.missing)
+```
+
+
+```{r}
+hr.missing<-read.csv("HRData.csv", header = TRUE)
+hr.missing$training.hours
+```
+
+```{r}
+as.character(hr.missing$training.hours)[1:100]
+```
+
+```{r}
+as.numeric(as.character(hr.missing$training.hours))[1:100]
+```
+
+```{r}
+typeof(as.numeric(as.character(hr.missing$training.hours)))
+```
+
+```{r}
+hr.missing.string<-as.character(hr.missing$training.hours)
+hr.missing.string
+```
+
+
+```{r}
+gsub("[^0-9.]","",hr.missing.string)
+```
+
+```{r}
+hr.missing.clean<-as.numeric(gsub("[^0-9.]","",hr.missing.string))
+hr.missing.clean
+```
+
+```{r}
+hrdata_cleanf<-transform(hr.missing,training.hours=as.numeric(gsub("[^0-9.]","",training.hours)))
+
+View(hrdata_cleanf)
+```
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
