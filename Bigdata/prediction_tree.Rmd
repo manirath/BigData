@@ -1,0 +1,71 @@
+---
+title: "Prediction_decisionTree"
+author: "Manirath Wongsim"
+date: "11/17/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+```{r}
+birthwt.lm <- lm(birthwt.grams ~ mother.age + mother.smokes, data = birthwt)
+
+summary(birthwt.lm)
+```
+
+```{r}
+birthwt.lm$model
+```
+
+```{r}
+cols_birthwt<-c('birthwt.below.2500','race','mother.smokes','hypertension','uterine.irr')
+cols_birthwt
+```
+
+
+```{r}
+birthwt[cols_birthwt] <- lapply(birthwt[cols_birthwt], as.factor)
+```
+
+
+```{r}
+set.seed(1)
+examp_data <- sample(1:nrow(birthwt), 0.75 * nrow(birthwt))
+str(examp_data)
+```
+
+
+```{r}
+library(rpart)
+birthwtTree <- rpart(birthwt.below.2500 ~ . - birthwt.grams, data = birthwt[examp_data, ], method = 'class')
+plot(birthwtTree)
+text(birthwtTree, pretty = 0)
+```
+
+```{r}
+summary(birthwtTree)
+```
+
+
+```{r}
+birthwtPred <- predict(birthwtTree, birthwt[-examp_data, ], type = 'class')
+table(birthwtPred, birthwt[-examp_data, ]$birthwt.below.2500)
+```
+
+
+#31+5/31+10+2+5 = 0.75 
+
+
+
+
+
+
+
+
+
+
+
+
