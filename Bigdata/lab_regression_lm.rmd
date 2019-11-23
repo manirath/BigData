@@ -118,3 +118,7 @@ ggplot(birthwt, aes(x=mother.age, y=birthwt.grams, shape=mother.smokes, color=mo
   ggtitle("Birth Weight by Mother's Age") 
 ```
 
+phys.visit.binned <- birthwt$physician.visits
+phys.visit.binned[phys.visit.binned >= 3] <- "3.or.more"
+birthwt <- transform(birthwt, phys.visit.binned = as.factor(phys.visit.binned))
+birthwt$phys.visit.binned
