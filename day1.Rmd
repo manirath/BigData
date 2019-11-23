@@ -1,0 +1,114 @@
+---
+title: "ggplot2_Rprogram"
+author: "Manirath Wongsim"
+date: "May 15, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+library(ggplot2)
+library(MASS)  # Useful for data sets
+library(plyr)  # We'll need mapvalues
+qplot(x=EngineSize, y=MPG.city, data=Cars93, 
+      colour=Cylinders, 
+      shape=Cylinders,
+      xlab = "Engine size (litres)",
+      ylab = "Fuel economy (MPG city)"
+      ) 
+```
+
+```{r}
+qplot(x =Max.Price, data = Cars93, facets = ~Origin, geom = "histogram", fill = Origin, binwidth = 2)
+```
+
+
+```{r}
+View(diamods)
+```
+
+```{r}
+install.packages("MASS")
+install.packages("ggplot2")
+install.packages("xml2")
+install.packages("curl")
+install.packages("rvest")
+```
+
+
+```{r}
+diamond.plot2 <- ggplot(data=diamonds, aes(x=carat, y=price, color= color ))
+
+diamond.plot2 + geom_point()
+```
+
+```{r}
+diamond.plot + geom_point(size = 0.7, alpha = 0.3)
+```
+
+```{r}
+View(diamonds)
+```
+
+```{r}
+library(ggplot2)
+diamond.plot <- ggplot(data=diamonds, aes(x=carat, y=price, colour = color))
+diamond.plot + geom_point()
+```
+
+```{r}
+diamond.plot <- ggplot(data=diamonds, aes(x=carat, y=price, colour = color))
+diamond.plot + geom_point() + facet_wrap(~cut)
+```
+
+```{r}
+library(ggplot2)
+library(MASS)  # Useful for data sets
+library(plyr)  # We'll need mapvalues
+qplot(x=EngineSize, y=MPG.city, data=Cars93, 
+      colour=Cylinders, 
+      shape=Cylinders,
+      xlab = "Engine size (litres)",
+      ylab = "Fuel economy (MPG city)"
+      ) 
+```
+
+```{r}
+diamond.plot2 <- ggplot(data=diamonds, aes(x=carat, y=price ))
+
+diamond.plot2 + geom_line()
+```
+
+
+```{r}
+diamond.plot + geom_point(size = 0.7, alpha = 0.3)
+```
+
+
+```{r}
+library(ggplot2)
+diamond.plot <- ggplot(data=diamonds, aes(x=carat, y=price, colour = color))
+diamond.plot + geom_point()
+```
+
+```{r}
+colnames(Cars93)
+```
+
+
+```{r}
+diamond.plot <- ggplot(data=diamonds, aes(x=carat, y=price, colour = color))
+diamond.plot + geom_line() + facet_wrap(~cut)
+```
+
+
+```{r}
+View(Cars93)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
