@@ -1,0 +1,196 @@
+---
+title: "Regession"
+author: "Manirath Wongsim"
+date: ''
+output: pdf_document
+---
+
+We'll begin by loading all the packages we might need.
+
+```{r}
+library(plyr)
+```
+
+
+```{r}
+library(MASS)
+library(plyr)
+library(reshape)  # You may need to install this one first!
+library(ggplot2)
+```
+
+### Is the data normal?
+
+**(a)** Construct histograms of `MPG.highway`, one plot for each `Origin` category.
+
+```{r}
+qplot(x = MPG.highway, data = Cars93, facets = ~Origin, geom = "histogram", fill = Origin, binwidth = 2)
+```
+
+**(b)** Does the data look to be normally distributed?
+
+The histograms don't really look normally distributed, so we might be better off using the non-parametric test.
+
+**(c)** Construct qqplots of `MPG.highway`, one plot for each `Origin` category.  Overlay a line on each plot using with `qqline()` function.
+
+```{r, fig.height = 4}
+par(mfrow = c(1,2))
+# USA cars
+with(Cars93, qqnorm(MPG.highway[Origin == "USA"]))
+with(Cars93, qqline(MPG.highway, col = "blue"))
+# Foreign cars
+with(Cars93, qqnorm(MPG.highway[Origin == "non-USA"]))
+with(Cars93, qqline(MPG.highway, col = "blue"))
+```
+
+**(d)** Does the data look to be normally distributed?
+
+The non-USA MPG.highway data looks very far from normally distributed.
+
+
+### Testing means between two groups
+
+**(a)** Using the Cars93 data and the `t.test()` function, run a t-test to see if average `MPG.highway` is different between US and non-US vehicles.
+
+```{r}
+View(Cars93)
+library(plyr)
+```
+
+```{r}
+View(survey_data)
+```
+
+
+```{r}
+Program.t.test <- t.test(TVhours ~ OperatingSystem, data = survey)
+Program.t.test
+```
+
+```{r}
+Program.lm <- lm(TVhours ~ OperatingSystem + Program + PriorExp, data = survey_data)
+summary(Program.lm)
+```
+
+Try doing this both using the formula style input and the `x`, `y` style input.
+
+```{r}
+View(Cars93)
+```
+
+```{r}
+qplot(data = Cars93, x = EngineSize, y = Price, colour = Origin) + stat_smooth(method = "lm", fullrange = TRUE)
+```
+
+```{r}
+library(plot3D)
+R <- 5
+r <- 2
+x <- seq(0, 2*pi,length.out=20)
+y <- seq(0, pi,length.out=80)
+M <- mesh(x, y)car93.lm <- lm(MPG.highway ~ Origin + EngineSize + Cylinders, data = Cars93)
+alpha <- M$x
+beta <- M$y
+surf3D(x = (R + r*cos(alpha)) * cos(beta),
+       y = (R + r*cos(alpha)) * sin(beta),
+       z = r * sin(alpha),
+       colkey=FALSE,
+       bty="b2",
+       main="Big data with Hadoop #6")
+```
+
+```{r}
+par(mfrow = c(2, 2), mar = c(0, 0, 0, 0))
+# Shape 1
+M  <- mesh(seq(0,  6*pi, length.out = 80),
+seq(pi/3, pi, length.out = 80))
+u  <- M$x ; v <- M$y
+x <- u/2 * sin(v) * cos(u)
+y <- u/2 * sin(v) * sin(u)
+z <- u/2 * cos(v)
+surf3D(x, y, z, colvar = z, colkey = FALSE, box = FALSE)
+# Shape 2: add border
+M  <- mesh(seq(0, 2*pi, length.out = 80),
+seq(0, 2*pi, length.out = 80))
+u  <- M$x ; v  <- M$y
+x  <- sin(u)
+y  <- sin(v)
+z  <- sin(u + v)
+surf3D(x, y, z, colvar = z, border = "black", colkey = FALSE)
+# shape 3: uses same mesh, white facets
+x <- (3 + cos(v/2)*sin(u) - sin(v/2)*sin(2*u))*cos(v)
+y <- (3 + cos(v/2)*sin(u) - sin(v/2)*sin(2*u))*sin(v)
+```
+
+
+```{r}
+car93.lm <- lm(MPG.highway ~ Origin +Horsepower +EngineSize + Cylinders, data = Cars93)
+summary(car93.lm)
+plot(car93.lm)
+```
+
+```{r}
+mpg.test <- t.test(MPG.highway ~ Origin, data = Cars93)
+mpg.test
+```
+
+
+```{r}
+mpg.t.test <- t.test(MPG.highway ~ Origin, data = Cars93, conf.level = 0.90)
+mpg.t.test
+
+```
+
+
+```{r}
+car93.lm$coefficients
+```
+
+```{r}
+# Formula version
+mpg.t.test <- t.test(MPG.highway ~ Origin, data = Cars93)
+mpg.t.test
+
+
+```at confident level = 90%
+## 
+```{r}
+mpg.t.test <- t.test(MPG.highway ~ Origin, data = Cars93, conf.level = 0.90)
+mpg.t.test
+```
+```{r}
+with(Cars93, t.test(x = MPG.highway[Origin == "USA"], y = MPG.highway[Origin == "non-USA"]))
+```
+
+```{r}
+with(Cars93, t.test(x = MPG.highway[Origin == "USA"], y = MPG.highway[Origin == "non-USA"]))
+```
+
+
+```{r}
+mpg.t.test$conf.int
+```
+```{r}
+mpg.wilcox.test <- wilcox.test(MPG.highway ~ Origin, data = Cars93)
+mpg.wilcox.test
+```
+
+
+# x, y version
+with(Cars93, t.test(x = MPG.highway[Origin == "USA"], y = MPG.highway[Origin == "non-USA"]))
+```
+
+**(b)** What is the confidence interval for the difference?
+
+```{r}
+mpg.t.test$conf.int
+```
+
+**(c)** Repeat part (a) using the `wilcox.test()` function.
+
+```{r}
+mpg.wilcox.test <- wilcox.test(MPG.highway ~ Origin, data = Cars93)
+mpg.wilcox.test
+```
+
+
