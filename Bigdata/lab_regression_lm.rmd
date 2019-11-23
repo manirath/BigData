@@ -107,3 +107,14 @@ pd <- predict(birthwt.lm, birthwt[3,], level = 0.99)
 str(pd)
 pd
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+-----------------ggplot2---------------------------
+```{r, fig.height=5, fig.width=6, fig.align='center'}
+ggplot(birthwt, aes(x=mother.age, y=birthwt.grams, shape=mother.smokes, color=mother.smokes)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") + 
+  ylab("Birth Weight (grams)") + 
+  xlab("Mother's Age (years)") + 
+  ggtitle("Birth Weight by Mother's Age") 
+```
+
