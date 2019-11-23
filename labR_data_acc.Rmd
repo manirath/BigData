@@ -1,0 +1,163 @@
+---
+title: "LabR_chapter1"
+author: "Manirath Wongsim"
+date: "July 15, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+
+```{r}
+library(MASS)
+str(survey_messy)
+```
+
+```{r}
+head(survey_messy)
+```
+
+```{r}
+summary(survey_messy)
+```
+
+```{r}
+attributes(survey_messy)
+nrow(survey_messy)
+ncol(survey_messy)
+survey_messy[["Program"]]
+plot(survey_messy[["Program"]])
+```
+
+
+```{r}
+View(survey_messy)
+survey_messy$TVhours
+
+```
+
+```{r}
+str(survey_messy)
+```
+
+```{r}
+as.character(survey_messy$TVhours)
+```
+
+```{r}
+as.numeric(as.character(survey_messy$TVhours))[1:30]
+```
+
+```{r}
+typeof(as.numeric(as.character(survey_messy$TVhours)))
+```
+
+```{r}
+gsub("[^0-9.]", "",survey_messy$TVhours)
+```
+
+```{r}
+tv.hours.clean <- as.numeric(gsub("[^0-9.]","",survey_messy$TVhours))
+tv.hours.clean
+```
+
+```{r}
+install.packages("httr")
+install.packages("XML")
+install.packages("xml2")
+install.packages("data.table")
+install.packages("dataframes2xls")
+```
+
+
+```{r}
+library(httr)
+library(XML)
+library(xml2)
+library(data.table)
+library(dataframes2xls)
+```
+
+```{r}
+airline<- "http://www.theacsi.org/benchmarks-by-industry-14729"
+
+```
+
+```{r}
+airline.table<- readHTMLTable(airline, header=T,which=1,stringsAsFactors=F)
+View(airline.table)
+```
+
+```{r}
+chess = "http://ratings.fide.com/top.phtml?list=men"
+chess.table = readHTMLTable(chess, header=T, which=5,stringsAsFactors=F)
+View(chess.table)
+```
+
+
+```{r}
+library(data.table)
+mydat <- fread('http://www.stats.ox.ac.uk/pub/datasets/csb/ch11b.dat')
+#head(mydat)
+View(mydat)
+```
+
+
+```{r}
+movie_rate <-read_html("https://www.imdb.com/title/tt6644200/?ref_=inth_ov_tt")
+
+
+```
+
+```{r}
+library(XML)
+library(rvest)
+
+movie_rate %>%
+  html_node("strong span") %>%
+  html_text() %>%
+  as.numeric()
+```
+
+```{r}
+movie_rate %>%
+  html_nodes("#titleCast .itemprop span") %>%
+  html_text()
+```
+
+```{r}
+library(rjson)
+readjson <- fromJSON(file = "input.json")
+View(readjson)
+```
+
+
+
+
+
+
+
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
