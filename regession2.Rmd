@@ -1,0 +1,156 @@
+---
+title: "Regession2"
+author: "Manirath Wongsim"
+date: ""
+output: 
+  html_document:
+    fig_width: 7
+    fig_height: 5
+---
+
+We'll begin by loading some packages.
+```{r}
+library(MASS)
+library(plyr)
+library(ggplot2)
+```
+
+
+
+```{r}
+View(birthwt)
+
+```
+
+
+
+
+
+```{r}
+colnames(birthwt)<-c("birthwt.below.2500","mother.age",
+    "mother.weight","race","mother.smoke","privious.prem.labor","hypertension",
+    "uterine.irr","physician.visits","birthwt.grams")
+
+View(birthwt)
+```
+
+```{r}
+library(plyr)
+birthwt<-transform(birthwt,race=as.factor(mapvalues(race,c(1,2,3),c("white","black","other"))),
+mother.smokes=as.factor(mapvalues(mother.smokes,c(0,1),c("no","yes"))),
+hypertension=as.factor(mapvalues(hypertension,c(0,1),c("no","yes"))),
+uterine.irr=as.factor(mapvalues(uterine.irr,c(0,1),c("no","yes"))),
+birthwt.below.2500=as.factor(mapvalues(birthwt.below.2500,c(0,1),c("no","yes"))))
+summary(birthwt)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Let's form our favourite birthwt data set.
+
+```{r}
+# Rename the columns to have more descriptive names
+colnames(birthwt) <- c("birthwt.below.2500", "mother.age", "mother.weight", 
+    "race", "mother.smokes", "previous.prem.labor", "hypertension", "uterine.irr", 
+    "physician.visits", "birthwt.grams")
+
+# Transform variables to factors with descriptive levels
+birthwt <- transform(birthwt, 
+            race = as.factor(mapvalues(race, c(1, 2, 3), 
+                              c("white","black", "other"))),
+            mother.smokes = as.factor(mapvalues(mother.smokes, 
+                              c(0,1), c("no", "yes"))),
+            hypertension = as.factor(mapvalues(hypertension, 
+                              c(0,1), c("no", "yes"))),
+            uterine.irr = as.factor(mapvalues(uterine.irr, 
+                              c(0,1), c("no", "yes")))
+            )
+```
+
+### ANOVA with birthwt data
+
+**(a)** Create a new factor that categorizes the number of physician visits into three levels: 0, 1, 2, 3 or more.  
+
+```{r}
+phys.visit.binned <- birthwt$physician.visits
+phys.visit.binned[phys.visit.binned >= 3] <- "3.or.more"
+birthwt <- transform(birthwt, phys.visit.binned = as.factor(phys.visit.binned))
+
+birthwt$phys.visit.binned
+plot(birthwt$phys.visit.binned)
+
+View(birthwt)
+```
+
+**Hint**: One way of doing this is with mapvalues, by mapping all instances of 3, 4,... etc, to "3 or more".
+
+**(b)** Run an ANOVA to determine whether the average birth weight varies across number of physician visits.
+```{r}
+aov.birthwt3 <- aov(birthwt.grams ~ phys.visit.binned, data = birthwt, conf.level = 0.90)
+aov.birthwt3
+```
+```{r}
+aov.birthwt <- aov(birthwt.grams ~ phys.visit.binned, data = birthwt)
+summary(aov.birthwt)
+```
+
+```{r}
+aov.birthwt3 <- aov(birthwt.grams ~ phys.visit.binned, data = birthwt, conf.level = 0.90)
+aov.birthwt3
+```
+
+
+```{r}
+aov.birthwt_race <- aov(birthwt.grams ~ race, data = birthwt)
+summary(aov.birthwt_race)
+```
+
+
+```{r}
+aov.birthwt_race <- aov(birthwt.grams ~ race, data = birthwt)
+summary(aov.birthwt_race)
+plot(aov.birthwt_race)
+#aov.birthwt
+```
+
+The p-value is greater than 0.05, so the variation in birthweight across number of physician visits is not statistically significant.  
+
+```{r}
+plot(aov.birthwt2)
+```
+
+```{r}
+birthwt.lm <- lm(birthwt.grams ~ mother.age + mother.smokes, data = birthwt)
+```
+
+
+```{r}
+birthwt.lm <- lm(birthwt.grams ~ mother.age + mother.smokes, data = birthwt)
+summary(birthwt.lm)
+```
+
+
+
+
+
+
+
+
+
+```{r}
+posthoc <- TukeyHSD(x=aov.birthwt, 'phys.visit.binned', conf.level=0.90)
+posthoc
+plot(posthoc)
+```
