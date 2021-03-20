@@ -1,0 +1,209 @@
+---
+title: "chapter1_bigdata"
+author: "Manirath Wongsim"
+date: "2/11/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+```{r}
+library(htmlTable)
+library(XML)
+library(xml2)
+library(gtable)
+library(data.table)
+library(dataframes2xls)
+library(httr)
+library(curl)
+library(rvest)
+library(plyr)
+library(rvest)
+```
+
+
+```{r}
+5*7
+```
+
+```{r}
+7+5
+```
+
+```{r}
+7<5
+```
+
+```{r}
+students<-c("chatchawan","Putticha","Jittiva")
+students
+```
+
+```{r}
+midterm<-c(80,90,82)
+midterm
+```
+
+```{r}
+final<-c(78,84,95)
+final
+```
+
+```{r}
+midterm+final
+```
+
+
+```{r}
+(midterm+final)/2
+```
+
+```{r}
+course.grades<-0.4*midterm+0.6*final
+course.grades
+```
+
+```{r}
+(final<midterm)&(midterm>80)
+```
+
+```{r}
+survey<-read.table("survey_messy.csv",header=TRUE, sep=",")
+
+```
+
+```{r}
+View(survey)
+```
+
+
+```{r}
+survey_final<-transform(survey_messy,TVhours=as.numeric(gsub("[^0-9.]","",survey_messy$TVhours)))
+```
+
+```{r}
+View(survey_final)
+```
+
+
+```{r}
+head(survey)
+```
+
+```{r}
+str(survey)
+```
+
+
+```{r}
+summary(survey)
+```
+
+
+```{r}
+View(survey)
+```
+
+```{r}
+library(htmlTable)
+```
+
+
+```{r}
+testweb = "http://ratings.fide.com/top.phtml?list=men"
+```
+
+
+```{r}
+testweb.table = readHTMLTable(testweb,header=T,which=5,stringAsFactors=F)
+
+```
+
+```{r}
+View(testweb.table)
+```
+
+
+
+```{r}
+install.packages("readxl")
+```
+
+```{r}
+library(readxl)
+```
+
+
+```{r}
+
+empdata5<-read_excel("survey_data.xlsx")
+
+```
+
+```{r}
+View(empdata5)
+```
+
+
+```{r}
+install.packages("rjson")
+```
+
+
+```{r}
+library("rjson")
+```
+
+```{r}
+result <- fromJSON(file = "input.json")
+
+```
+
+```{r}
+View(result)
+```
+
+```{r}
+library(MASS)
+```
+
+```{r}
+qplot(x=EngineSize, y=MPG.highway, data=Cars93, 
+      colour=Origin, 
+      shape=Type,
+      xlab = "Engine size (litres)",
+      ylab = "Fuel economy (MPG city)"
+      ) 
+```
+
+```{r}
+qplot(x =Max.Price, data = Cars93, facets = ~Origin, geom = "histogram", fill = Origin, binwidth = 2)
+```
+
+```{r}
+Car93.plot2 <- ggplot(data=Cars93, aes(x=EngineSize, y=MPG.highway, colour = Origin))
+Car93.plot2 + geom_line()
+```
+
+```{r}
+View(Cars93)
+```
+
+
+```{r}
+library(ggplot2)
+diamond.plot <- ggplot(data=diamonds, aes(x=carat, y=price, colour = color))
+diamond.plot + geom_point()
+```
+
+```{r}
+diamond.plot <- ggplot(data=diamonds, aes(x=carat, y=price, colour = color))
+diamond.plot + geom_line() + facet_wrap(~cut)
+```
+
+
